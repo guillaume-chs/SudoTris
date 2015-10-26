@@ -12,4 +12,4 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
-</module>Changed directory structure to add (then remove ...) Maven support. Also, comments and Javadoc are finally fully written (got issues with encoding).
+</module>
