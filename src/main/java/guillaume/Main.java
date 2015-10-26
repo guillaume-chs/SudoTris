@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         final SudotrisIHM game = new SudotrisIHM();
-        //game.initializeGame();
+        game.initializeGame();
         game.play();
     }
 }
