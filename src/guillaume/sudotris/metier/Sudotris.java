@@ -1,0 +1,107 @@
+package guillaume.sudotris.metier;
+
+import guillaume.sudotris.metier.element.Element;
+import guillaume.sudotris.metier.grid.GridFilled;
+import guillaume.sudotris.metier.grid.GridParsed;
+import guillaume.sudotris.resources.GrilleFileProvider;
+
+/**
+ *
+ */
+public class Sudotris {
+    /**
+     * Nombre de lignes de la grille.
+     */
+    public static final byte LINES = 9;
+    /**
+     * Nombre de colonnes de la grille.
+     */
+    public static final byte COLUMNS = 9;
+
+    private final GridParsed gridParsed;
+    private final GridFilled gridFilled;
+    private Difficulte difficulte;
+
+    /**
+     * Default constructor
+     */
+    public Sudotris() {
+        gridParsed = new GridParsed();
+        gridFilled = new GridFilled();
+    }
+
+    /**
+     * Initialise une partie de Sudotris pour une difficulté donnée.
+     *
+     * @param difficulte la difficulte de la partie à jouer
+     */
+    public void init(Difficulte difficulte) {
+        this.difficulte = difficulte;
+
+        gridParsed.initFromFile(GrilleFileProvider.getParsedGridPathByDifficulte(difficulte));
+        gridFilled.initFromFile(GrilleFileProvider.getFilledGridPathByDifficulte(difficulte));
+
+        // gridParsed.solveGrid();
+    }
+
+    /**
+     * Vérifie et place l'élément donné après vérification. <br>
+     * Renvoie un booléen indiquant si oui, ou non, l'élément a été placé.
+     *
+     * @param element l'élément à placer
+     * @return <code>vrai</code> si l'élément a été placé; <br>
+     * <code>faux</code> sinon
+     * @throws IllegalArgumentException si l'élément à placer est vide, ou s'il existe déjà un élément à l'endroit voulu
+     */
+    public boolean placeElement(Element element) {
+        if (element.isEmpty()) {
+            throw new IllegalArgumentException("L'élément à placer est vide");
+        }
+        if (!gridParsed.getElement(element.getLine(), element.getColumn()).isEmpty()) {
+            throw new IllegalArgumentException("Un élément est déjà placé à cet endroit");
+        }
+
+        if (!gridFilled.getElement(element.getLine(), element.getColumn()).equals(element)) {
+            return false;
+        }
+        gridParsed.addElement(element);
+        return true;
+    }
+
+    /**
+     * Renvoie un booléen qui indique si la partie est terminée (<=> la grille de jeu est remplie).
+     *
+     * @return <code>vrai</code> si la grille de jeu est remplie; <br>
+     * <code>faux</code> sinon.
+     */
+    public boolean isFinished() {
+        return gridParsed.isFilled();
+    }
+
+    /**
+     * Renvoie la difficulté de la partie en cours.
+     *
+     * @return la difficulté de la partie en cours
+     */
+    public Difficulte getDifficulte() {
+        return difficulte;
+    }
+
+    /**
+     * Renvoie la matrix d'élément à dessiner.
+     *
+     * @return la matrix d'élément à dessiner
+     */
+    public Element[][] getDrawableGrid() {
+        return gridParsed.getMatrix();
+    }
+
+    /**
+     * Renvoie le nombre à placer par l'utilisateur.
+     *
+     * @return le nombre à placer par l'utilisateur
+     */
+    public int getNumberToPlace() {
+        return gridParsed.getPlaceableNumber();
+    }
+}
