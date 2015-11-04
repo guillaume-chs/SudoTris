@@ -4,6 +4,7 @@ import guillaume.sudotris.fileio.GridParser;
 import guillaume.sudotris.metier.Sudotris;
 import guillaume.sudotris.metier.element.Element;
 import guillaume.sudotris.metier.element.EmptyElement;
+import guillaume.sudotris.metier.element.NotEmptyElement;
 import guillaume.sudotris.resources.SudokuSolver;
 
 import java.nio.file.Path;
@@ -66,6 +67,24 @@ public abstract class Grid {
     }
 
     /**
+     * Remplit la grille de jeu depuis la grille donnée.
+     *
+     * @param grid la grille de jeu à copier
+     */
+    public void initFromGrid(Grid grid) {
+        for (byte line = 0; line < 9; line++) {
+            for (byte col = 0; col < 9; col++) {
+                final Element el = grid.getElement(line, col);
+                if (el.isEmpty()) {
+                    matrix[line][col] = new EmptyElement(line, col);
+                } else {
+                    matrix[line][col] = new NotEmptyElement(line, col, el.getNumber());
+                }
+            }
+        }
+    }
+
+    /**
      * Vide la grille de jeu.
      */
     public void empty() {
@@ -86,7 +105,7 @@ public abstract class Grid {
         if (isSolved() || isFilled()) {
             return;
         }
-        new SudokuSolver(this).solveGrid();
+        (new SudokuSolver(this)).solveGrid();
         solved = true;
     }
 

@@ -39,10 +39,23 @@ public class GridSolved extends Grid {
      * Cette redéfinition est à utiliser pour la classe GridParsed.
      *
      * @param path le chemin (relatif ou absolu) du fichier à parser
+     * @see Grid#initFromFile(Path)
      */
     @Override
     public void initFromFile(Path path) {
         super.initFromFile(path);
+        this.solveGrid();
+    }
+
+    /**
+     * Remplit la grille de jeu depuis la grille donnée. <br>
+     * Cette redéfinition est à utiliser pour la classe GridParsed.
+     *
+     * @param grid la grille de jeu à copier
+     * @see Grid#initFromGrid(Grid)
+     */
+    public void initFromGrid(Grid grid) {
+        super.initFromGrid(grid);
         this.solveGrid();
     }
 }

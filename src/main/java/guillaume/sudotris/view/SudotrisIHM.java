@@ -31,7 +31,7 @@ public class SudotrisIHM {
      * Initialise le jeu de Sudotris : gère la création du jeu pour une grille de niveau à choisir.
      */
     public void initializeGame() {
-        System.out.print("Pour commencer, choisis la difficult� de jeu (1=easy, 2=hard) : ");
+        System.out.print("Pour commencer, choisis la difficulté de jeu (1=easy, 2=hard) : ");
 
         final int difficulte = scanner.nextInt();
         switch (difficulte) {
@@ -58,7 +58,7 @@ public class SudotrisIHM {
             final boolean elementCorrect = sudotris.placeElement(this.askForNumber());
 
             if (elementCorrect) {
-                System.out.println("Yes !");
+                System.out.println("Bien joué !");
             } else {
                 System.out.println("Wrong location");
             }
@@ -68,6 +68,24 @@ public class SudotrisIHM {
         System.out.println(" ----------------------- ");
         System.out.println("|  You've won ! GG  :)  |");
         System.out.println(" ----------------------- ");
+
+        // Rejouer ?
+        if (playAgain()) {
+            play();
+        }
+    }
+
+    /**
+     * Rejouer ? - retourne un booléen indiquant si le joueur souhaite rejouer.
+     *
+     * @return <code>true</code> si le joueur souhaite rejouer;<br>
+     * <code>false</code> sinon
+     */
+    protected boolean playAgain() {
+        System.out.print("Rejouer (y/N) : ");
+
+        final char c = scanner.next().toLowerCase().charAt(0);
+        return (c == 'y');
     }
 
     /**
@@ -99,7 +117,6 @@ public class SudotrisIHM {
         }
 
         System.out.println("   ----------------------- ");
-        System.out.println("    1 2 3   4 5 6   7 8 9");
     }
 
     /**

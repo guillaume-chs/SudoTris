@@ -33,6 +33,8 @@ public class Sudotris {
     public Sudotris() {
         gridParsed = new GridParsed();
         gridSolved = new GridSolved();
+
+        // gridFilled = new GridFilled();
     }
 
     /**
@@ -44,7 +46,9 @@ public class Sudotris {
         this.difficulte = difficulte;
 
         gridParsed.initFromFile(GrilleFileProvider.getParsedGridPathByDifficulte(difficulte));
-        gridSolved.initFromFile(GrilleFileProvider.getFilledGridPathByDifficulte(difficulte));
+        gridSolved.initFromGrid(gridParsed);
+
+        // gridFilled.initFromFile(GrilleFileProvider.getFilledGridPathByDifficulte(difficulte));
     }
 
     /**
