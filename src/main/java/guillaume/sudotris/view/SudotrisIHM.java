@@ -49,25 +49,13 @@ public class SudotrisIHM {
     /**
      * C'est parti ! Démarre le jeu. Il faut l'avoir pour cela initialisé.
      */
-    public void start() {
-        do {
-            initializeGame();
-            play();
-        } while (playAgain());
-
-        System.out.println("Goodbye !");
-        scanner.close();
-    }
-
-    /**
-     * La boucle de jeu. Appelée par SudotrisIHM#start().
-     */
-    private void play() {
+    public void play() {
         while (!sudotris.isFinished()) {
-            renderMatrix(sudotris.getDrawableGrid());
+            this.renderMatrix(sudotris.getDrawableGrid());
 
-            // Le joueur tente sa chance (true: réussi)
-            final boolean elementCorrect = sudotris.placeElement(askForNumber());
+            // Le joueur tente sa chance
+            // true => réussi
+            final boolean elementCorrect = sudotris.placeElement(this.askForNumber());
 
             if (elementCorrect) {
                 System.out.println("Bien joué !");
@@ -80,6 +68,11 @@ public class SudotrisIHM {
         System.out.println(" ----------------------- ");
         System.out.println("|  You've won ! GG  :)  |");
         System.out.println(" ----------------------- ");
+
+        // Rejouer ?
+        if (playAgain()) {
+            play();
+        }
     }
 
     /**
