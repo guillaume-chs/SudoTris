@@ -8,7 +8,6 @@ import guillaume.sudotris.metier.element.NotEmptyElement;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -26,10 +25,13 @@ public class GridParser {
      * <ul>
      * <li><code>NotEmptyElement</code> si le nombre est compris entre [1, 9]</li>
      * <li><code>EmptyElement</code> sinon</li>
-     * </ul>.
+     * </ul>. <br>
+     * <i>Attention : cette méthode est redéfinie dans GridParsed, pour son cas d'utilisation particulier
+     * de gestion des éléments plaçables</i>.
      *
      * @param path le chemin vers la grille de jeu
      * @return la matrix d'éléments correspondante
+     * @see guillaume.sudotris.metier.grid.GridParsed#initFromFile(Path)
      */
     public static Element[][] parseFileToMatrix(Path path) {
         final Element[][] matrix = new Element[Sudotris.LINES][Sudotris.COLUMNS];
@@ -39,8 +41,8 @@ public class GridParser {
             final byte[] columnIndex = {0};
 
             lines.forEach(line -> {
-                Arrays.asList(line.split(" ")).forEach(letter -> {
-                    final Integer value = Integer.valueOf(letter);
+                line.replaceAll("\\s+", "").chars().forEach(letter -> {
+                    final Integer value = Character.getNumericValue(letter);
                     if (value >= 1 && value <= 9) {
                         matrix[lineIndex[0]][columnIndex[0]] = new NotEmptyElement(lineIndex[0], columnIndex[0], value);
                     } else {

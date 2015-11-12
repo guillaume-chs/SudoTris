@@ -31,34 +31,34 @@ public class Sudotris {
     }
 
     /**
-     * Initialise une partie de Sudotris pour une difficulté donnée.
+     * Initialise une partie de Sudotris pour une difficultï¿½ donnï¿½e.
      *
-     * @param difficulte la difficulte de la partie à jouer
+     * @param difficulte la difficulte de la partie ï¿½ jouer
      */
     public void init(Difficulte difficulte) {
         this.difficulte = difficulte;
 
-        gridParsed.initFromFile(GrilleFileProvider.getParsedGridPathByDifficulte(difficulte));
-        gridFilled.initFromFile(GrilleFileProvider.getFilledGridPathByDifficulte(difficulte));
+        gridParsed.initFromFile(GrilleFileProvider.getParsedGridPath(difficulte));
+        gridFilled.initFromFile(GrilleFileProvider.getFilledGridPath(difficulte));
 
         // gridParsed.solveGrid();
     }
 
     /**
-     * Vérifie et place l'élément donné après vérification. <br>
-     * Renvoie un booléen indiquant si oui, ou non, l'élément a été placé.
+     * Vï¿½rifie et place l'ï¿½lï¿½ment donnï¿½ aprï¿½s vï¿½rification. <br>
+     * Renvoie un boolï¿½en indiquant si oui, ou non, l'ï¿½lï¿½ment a ï¿½tï¿½ placï¿½.
      *
-     * @param element l'élément à placer
-     * @return <code>vrai</code> si l'élément a été placé; <br>
+     * @param element l'ï¿½lï¿½ment ï¿½ placer
+     * @return <code>vrai</code> si l'ï¿½lï¿½ment a ï¿½tï¿½ placï¿½; <br>
      * <code>faux</code> sinon
-     * @throws IllegalArgumentException si l'élément à placer est vide, ou s'il existe déjà un élément à l'endroit voulu
+     * @throws IllegalArgumentException si l'ï¿½lï¿½ment ï¿½ placer est vide, ou s'il existe dï¿½jï¿½ un ï¿½lï¿½ment ï¿½ l'endroit voulu
      */
     public boolean placeElement(Element element) {
         if (element.isEmpty()) {
-            throw new IllegalArgumentException("L'élément à placer est vide");
+            throw new IllegalArgumentException("L'ï¿½lï¿½ment ï¿½ placer est vide");
         }
         if (!gridParsed.getElement(element.getLine(), element.getColumn()).isEmpty()) {
-            throw new IllegalArgumentException("Un élément est déjà placé à cet endroit");
+            throw new IllegalArgumentException("Un ï¿½lï¿½ment est dï¿½jï¿½ placï¿½ ï¿½ cet endroit");
         }
 
         if (!gridFilled.getElement(element.getLine(), element.getColumn()).equals(element)) {
@@ -69,7 +69,7 @@ public class Sudotris {
     }
 
     /**
-     * Renvoie un booléen qui indique si la partie est terminée (<=> la grille de jeu est remplie).
+     * Renvoie un boolï¿½en qui indique si la partie est terminï¿½e (<=> la grille de jeu est remplie).
      *
      * @return <code>vrai</code> si la grille de jeu est remplie; <br>
      * <code>faux</code> sinon.
@@ -79,27 +79,27 @@ public class Sudotris {
     }
 
     /**
-     * Renvoie la difficulté de la partie en cours.
+     * Renvoie la difficultï¿½ de la partie en cours.
      *
-     * @return la difficulté de la partie en cours
+     * @return la difficultï¿½ de la partie en cours
      */
     public Difficulte getDifficulte() {
         return difficulte;
     }
 
     /**
-     * Renvoie la matrix d'élément à dessiner.
+     * Renvoie la matrix d'ï¿½lï¿½ment ï¿½ dessiner.
      *
-     * @return la matrix d'élément à dessiner
+     * @return la matrix d'ï¿½lï¿½ment ï¿½ dessiner
      */
     public Element[][] getDrawableGrid() {
         return gridParsed.getMatrix();
     }
 
     /**
-     * Renvoie le nombre à placer par l'utilisateur.
+     * Renvoie le nombre ï¿½ placer par l'utilisateur.
      *
-     * @return le nombre à placer par l'utilisateur
+     * @return le nombre ï¿½ placer par l'utilisateur
      */
     public int getNumberToPlace() {
         return gridParsed.getPlaceableNumber();

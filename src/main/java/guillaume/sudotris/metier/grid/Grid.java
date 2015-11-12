@@ -28,7 +28,7 @@ public abstract class Grid {
      * <code>vrai</code> si la grille a été résolue; <br>
      * <code>faux</code> sinon.
      */
-    private boolean solved;
+    protected boolean solved;
 
     /**
      * Constructeur par défaut de la classe Grid. <br>
@@ -37,6 +37,7 @@ public abstract class Grid {
     protected Grid() {
         this.matrix = new Element[Sudotris.LINES][Sudotris.COLUMNS];
         this.solved = false;
+        empty();
     }
 
     /**
@@ -63,6 +64,7 @@ public abstract class Grid {
      * @param path le chemin (relatif ou absolu) du fichier  parser
      */
     public void initFromFile(Path path) {
+        solved = false;
         matrix = GridParser.parseFileToMatrix(path);
     }
 
@@ -72,6 +74,8 @@ public abstract class Grid {
      * @param grid la grille de jeu à copier
      */
     public void initFromGrid(Grid grid) {
+        solved = false;
+
         for (byte line = 0; line < 9; line++) {
             for (byte col = 0; col < 9; col++) {
                 final Element el = grid.getElement(line, col);

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
@@ -30,7 +29,7 @@ public class GridParsed extends Grid {
     /**
      * Liste des éléments plaçables. Le fonctionnement est le suivant : <br>
      * <ul>
-     * <li>les nombres sont les index du tableau : <i>{0, 1, 2, ... 8} -> nombres {1, 2, 3, ... 9}</i></li>
+     * <li>les chiffres de la grille sont les index du tableau : <i>{0, 1, 2, ... 8} -> chiffres {1, 2, 3, ... 9}</i></li>
      * <li>la valorisation correspond au nombre d'occurences placées du nombre</li>
      * </ul>.
      * <u>Exemple :</u> si 3 est placé 4 fois, alors placeableElements[2] = 4.
@@ -82,8 +81,8 @@ public class GridParsed extends Grid {
             final byte[] columnIndex = {0};
 
             lines.forEach(line -> {
-                Arrays.asList(line.split(" ")).forEach(letter -> {
-                    final Integer value = Integer.valueOf(letter);
+                line.replaceAll("\\s+", "").chars().forEach(letter -> {
+                    final Integer value = Character.getNumericValue(letter);
                     if (value >= 1 && value <= 9) {
                         matrix[lineIndex[0]][columnIndex[0]] = new NotEmptyElement(lineIndex[0], columnIndex[0], value);
                         placeableElements[value - 1] += 1;
@@ -104,18 +103,17 @@ public class GridParsed extends Grid {
     }
 
     /**
-     * Méthode à utiliser pour ajouter un élément à la grille de jeu. <br>
-     * Gère l'ajout et les conséquences de l'ajout (actualisation de la liste de possibilité, ...).
+     * Gère l'ajout d'un élément à la grille. Vérifie que l'ajout est possible, et fait les MAJ nécessaires.
      *
      * @param element l'élément à ajouter à la grille de jeu
      * @throws IllegalArgumentException si un élément existe déjà, ou si l'élément est vide
      */
     public void addElement(Element element) {
         if (!matrix[element.getLine()][element.getColumn()].isEmpty()) {
-            throw new IllegalArgumentException("L'élément existe déjà");
+            throw new IllegalArgumentException("Un élément existe déjà");
         }
         if (element.isEmpty()) {
-            throw new IllegalArgumentException("L'élément est vide");
+            throw new IllegalArgumentException("L'élément à ajouter est vide");
         }
         matrix[element.getLine()][element.getColumn()] = element;
         placeableElements[element.getNumber() - 1] += 1;

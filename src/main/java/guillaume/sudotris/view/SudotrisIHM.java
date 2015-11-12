@@ -31,11 +31,14 @@ public class SudotrisIHM {
      * Initialise le jeu de Sudotris : gère la création du jeu pour une grille de niveau à choisir.
      */
     public void initializeGame() {
-        System.out.print("Pour commencer, choisis la difficulté de jeu (1=easy, 2=hard) : ");
+        System.out.print("Pour commencer, choisis la difficulté de jeu (1=easy, 2=moyen, 3=hard) : ");
 
         final int difficulte = scanner.nextInt();
         switch (difficulte) {
             case 2:
+                sudotris.init(Difficulte.MEDIUM);
+                break;
+            case 3:
                 sudotris.init(Difficulte.HARD);
                 break;
             default:
@@ -49,13 +52,26 @@ public class SudotrisIHM {
     /**
      * C'est parti ! Démarre le jeu. Il faut l'avoir pour cela initialisé.
      */
+    public void start() {
+        do {
+            initializeGame();
+            play();
+        } while (sudotris.isFinished());
+
+        System.out.println("Goodbye ! :)");
+        scanner.close();
+    }
+
+    /**
+     * La boucle de jeu. Appelée par SudotrisIHM#start().
+     */
     public void play() {
         while (!sudotris.isFinished()) {
-            this.renderMatrix(sudotris.getDrawableGrid());
+            renderMatrix(sudotris.getDrawableGrid());
 
             // Le joueur tente sa chance
             // true => réussi
-            final boolean elementCorrect = sudotris.placeElement(this.askForNumber());
+            final boolean elementCorrect = sudotris.placeElement(askForNumber());
 
             if (elementCorrect) {
                 System.out.println("Bien joué !");
@@ -68,11 +84,6 @@ public class SudotrisIHM {
         System.out.println(" ----------------------- ");
         System.out.println("|  You've won ! GG  :)  |");
         System.out.println(" ----------------------- ");
-
-        // Rejouer ?
-        if (playAgain()) {
-            play();
-        }
     }
 
     /**

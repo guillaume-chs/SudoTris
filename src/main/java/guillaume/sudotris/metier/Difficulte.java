@@ -11,29 +11,13 @@ public enum Difficulte {
     /**
      * Très facile.
      */
-    EASY(1),
+    EASY,
+    /**
+     * Moyen.
+     */
+    MEDIUM,
     /**
      * Très dur.
      */
-    HARD(6);
-
-    private final int level;
-
-    /**
-     * Construit un niveau de difficulté depuis son équivalent en chiffre.
-     *
-     * @param level l'équivalent chiffré du niveau de difficulté.
-     */
-    Difficulte(int level) {
-        this.level = level;
-    }
-
-    /**
-     * Renvoi la représentation numérique du niveau de difficulté.
-     *
-     * @return la représentation numérique du niveau de difficulté
-     */
-    public int getLevel() {
-        return level;
-    }
+    HARD;
 }

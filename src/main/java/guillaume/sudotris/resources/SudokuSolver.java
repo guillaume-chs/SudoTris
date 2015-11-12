@@ -51,7 +51,7 @@ public class SudokuSolver {
      */
     public boolean solveGrid() {
         final boolean solved = this.solveGrid((byte) 0);
-        System.out.printf("Trouvé en %d itérations\n", nbIterations);
+        System.out.printf("Grille résolue en %d itérations\n", nbIterations);
         return solved;
     }
 

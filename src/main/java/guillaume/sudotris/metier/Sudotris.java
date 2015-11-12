@@ -5,6 +5,8 @@ import guillaume.sudotris.metier.grid.GridParsed;
 import guillaume.sudotris.metier.grid.GridSolved;
 import guillaume.sudotris.resources.GrilleFileProvider;
 
+import java.nio.file.Path;
+
 /**
  * Classe métier-contrôlleur du Sudotris : <br>
  * fait office d'interface entre les vues et les couches plus métiers (Grid et Element).
@@ -33,8 +35,6 @@ public class Sudotris {
     public Sudotris() {
         gridParsed = new GridParsed();
         gridSolved = new GridSolved();
-
-        // gridFilled = new GridFilled();
     }
 
     /**
@@ -45,18 +45,18 @@ public class Sudotris {
     public void init(Difficulte difficulte) {
         this.difficulte = difficulte;
 
-        gridParsed.initFromFile(GrilleFileProvider.getParsedGridPathByDifficulte(difficulte));
-        gridSolved.initFromGrid(gridParsed);
-
-        // gridFilled.initFromFile(GrilleFileProvider.getFilledGridPathByDifficulte(difficulte));
+        final Path gridPath = GrilleFileProvider.getParsedGridPath(difficulte);
+        gridParsed.initFromFile(gridPath);
+        gridSolved.initFromFile(GrilleFileProvider.getFilledGridPath(gridPath));
+        // gridSolved.initFromGrid(gridParsed);
     }
 
     /**
-     * Vérifie et place l'élément donné après vérification. <br>
-     * Renvoie un booléen indiquant si oui, ou non, l'élément a été placé.
+     * Vérifie et ajoute l'élément donné après vérification. <br>
+     * Renvoie un booléen indiquant si oui, ou non, l'élément a été ajouté.
      *
-     * @param element l'élément à placer
-     * @return <code>vrai</code> si l'élément a été placé; <br>
+     * @param element l'élément à ajouter
+     * @return <code>vrai</code> si l'élément a été ajouté; <br>
      * <code>faux</code> sinon
      * @throws IllegalArgumentException si l'élément à placer est vide, ou s'il existe déjà un élément à l'endroit voulu
      */
