@@ -1,7 +1,7 @@
 package guillaume.sudotris.metier.element;
 
 /**
- * Gère un élément vide de la grille de jeu.
+ * GÃ¨re un Ã©lÃ©ment vide de la grille de jeu.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -11,10 +11,10 @@ package guillaume.sudotris.metier.element;
 public class EmptyElement extends Element {
 
     /**
-     * Construit un élément à partir de sa ligne et de sa colonne.
+     * Construit un Ã©lÃ©ment Ã  partir de sa ligne et de sa colonne.
      *
-     * @param line   ligne de l'élément sur la grille de jeu
-     * @param column colonne de l'élément sur la grille de jeu
+     * @param line   ligne de l'Ã©lÃ©ment sur la grille de jeu
+     * @param column colonne de l'Ã©lÃ©ment sur la grille de jeu
      * @see Element#Element(byte, byte)
      */
     public EmptyElement(byte line, byte column) {
@@ -22,7 +22,7 @@ public class EmptyElement extends Element {
     }
 
     /**
-     * Renvoie <code>vrai</code> : EmptyElement représente un élément vide.
+     * Renvoie <code>vrai</code> : EmptyElement reprÃ©sente un Ã©lÃ©ment vide.
      *
      * @return <code>vrai</code>
      * @see Element#isEmpty()
@@ -33,8 +33,8 @@ public class EmptyElement extends Element {
     }
 
     /**
-     * Renvoie le nombre à la ligne et colonne représentées par cet élément. <br>
-     * En l'occurence, toujours 0 puisque l'élément est un élément vide.
+     * Renvoie le nombre Ã  la ligne et colonne reprÃ©sentÃ©es par cet Ã©lÃ©ment. <br>
+     * En l'occurence, toujours 0 puisque l'Ã©lÃ©ment est un Ã©lÃ©ment vide.
      *
      * @return 0
      * @see Element#getNumber()

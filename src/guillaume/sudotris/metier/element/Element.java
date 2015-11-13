@@ -1,7 +1,7 @@
 package guillaume.sudotris.metier.element;
 
 /**
- * Classe Element qui définit un élément de la grille de jeu. C'est la classe métier qui gère une case.
+ * Classe Element qui dÃ©finit un Ã©lÃ©ment de la grille de jeu. C'est la classe mÃ©tier qui gÃ¨re une case.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -14,10 +14,10 @@ public abstract class Element {
     protected final byte column;
 
     /**
-     * Construit un élément à partir de sa ligne et de sa colonne.
+     * Construit un Ã©lÃ©ment Ã  partir de sa ligne et de sa colonne.
      *
-     * @param line   ligne de l'élément sur la grille de jeu
-     * @param column colonne de l'élément sur la grille de jeu
+     * @param line   ligne de l'Ã©lÃ©ment sur la grille de jeu
+     * @param column colonne de l'Ã©lÃ©ment sur la grille de jeu
      */
     protected Element(byte line, byte column) {
         this.line = line;
@@ -25,35 +25,35 @@ public abstract class Element {
     }
 
     /**
-     * Indique si l'élément est vide, ou non.
+     * Indique si l'Ã©lÃ©ment est vide, ou non.
      *
-     * @return <code>vrai</code> si l'élément est vide; <br>
+     * @return <code>vrai</code> si l'Ã©lÃ©ment est vide; <br>
      * <code>faux</code> sinon.
      */
     public abstract boolean isEmpty();
 
     /**
-     * Renvoie la ligne de l'élément.
+     * Renvoie la ligne de l'Ã©lÃ©ment.
      *
-     * @return la ligne de l'élément
+     * @return la ligne de l'Ã©lÃ©ment
      */
     public byte getLine() {
         return this.line;
     }
 
     /**
-     * Renvoie la colonne de l'élément.
+     * Renvoie la colonne de l'Ã©lÃ©ment.
      *
-     * @return la colonne de l'élément
+     * @return la colonne de l'Ã©lÃ©ment
      */
     public byte getColumn() {
         return this.column;
     }
 
     /**
-     * Renvoie le nombre de l'élément.
+     * Renvoie le nombre de l'Ã©lÃ©ment.
      *
-     * @return le nombre de l'élément
+     * @return le nombre de l'Ã©lÃ©ment
      */
     public abstract int getNumber();
 

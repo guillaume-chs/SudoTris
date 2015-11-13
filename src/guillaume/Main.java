@@ -3,7 +3,7 @@ package guillaume;
 import guillaume.sudotris.view.SudotrisIHM;
 
 /**
- * Created by guill_000 on 10/10/2015.
+ * Main class of the project.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -11,9 +11,13 @@ import guillaume.sudotris.view.SudotrisIHM;
  */
 public class Main {
 
+    /**
+     * Launch this.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         final SudotrisIHM game = new SudotrisIHM();
-        game.initializeGame();
-        game.play();
+        game.start();
     }
 }

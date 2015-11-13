@@ -1,7 +1,7 @@
 package guillaume.sudotris.metier.element;
 
 /**
- * Gère un élément non vide de la grille de jeu, avec un nombre défini.
+ * GÃ¨re un Ã©lÃ©ment non vide de la grille de jeu, avec un nombre dÃ©fini.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -12,11 +12,11 @@ public class NotEmptyElement extends Element {
     private final int number;
 
     /**
-     * Construit un élément à partir de sa ligne, de sa colonne, et de son chiffre.
+     * Construit un Ã©lÃ©ment Ã  partir de sa ligne, de sa colonne, et de son chiffre.
      *
-     * @param line   ligne de l'élément sur la grille de jeu
-     * @param column colonne de l'élément sur la grille de jeu
-     * @param number le nombre de l'élément
+     * @param line   ligne de l'Ã©lÃ©ment sur la grille de jeu
+     * @param column colonne de l'Ã©lÃ©ment sur la grille de jeu
+     * @param number le nombre de l'Ã©lÃ©ment
      * @see Element#Element(byte, byte)
      */
     public NotEmptyElement(byte line, byte column, int number) {
@@ -25,7 +25,7 @@ public class NotEmptyElement extends Element {
     }
 
     /**
-     * Renvoie <code>faux</code> : NotEmptyElement représente un élément non vide.
+     * Renvoie <code>faux</code> : NotEmptyElement reprÃ©sente un Ã©lÃ©ment non vide.
      *
      * @return <code>faux</code>
      * @see Element#isEmpty()
@@ -36,9 +36,9 @@ public class NotEmptyElement extends Element {
     }
 
     /**
-     * Renvoie le nombre à la ligne et colonne représentées par cet élément.
+     * Renvoie le nombre Ã  la ligne et colonne reprÃ©sentÃ©es par cet Ã©lÃ©ment.
      *
-     * @return le nombre de cet élément
+     * @return le nombre de cet Ã©lÃ©ment
      * @see Element#getNumber()
      */
     @Override

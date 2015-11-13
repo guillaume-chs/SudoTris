@@ -10,37 +10,36 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 /**
- * GËre la grille partielle de jeu. <br>
- * Chaque ÈlÈment placÈ est une instance de NotEmptyElement, et chaque ÈlÈment vide est une instance d'EmptyElement.
+ * G√®re la grille partielle de jeu. <br>
+ * Chaque √©l√©ment plac√© est une instance de NotEmptyElement, et chaque √©l√©ment vide est une instance d'EmptyElement.
  *
  * @author Guillaume Chanson
  * @version 1.0
- * @see guillaume.sudotris.metier.element.NotEmptyElement
+ * @see NotEmptyElement
  * @see guillaume.sudotris.metier.element.EmptyElement
  * @see Grid
  * @since 1.8
  */
 public class GridParsed extends Grid {
     /**
-     * Liste des ÈlÈments plaÁables. Le fonctionnement est le suivant : <br>
+     * Liste des √©l√©ments pla√ßables. Le fonctionnement est le suivant : <br>
      * <ul>
-     * <li>les nombres sont les index du tableau : <i>{0, 1, 2, ... 8} -> nombres {1, 2, 3, ... 9}</i></li>
-     * <li>la valorisation correspond au nombre d'occurences placÈes du nombre</li>
+     * <li>les chiffres de la grille sont les index du tableau : <i>{0, 1, 2, ... 8} -> chiffres {1, 2, 3, ... 9}</i></li>
+     * <li>la valorisation correspond au nombre d'occurences plac√©es du nombre</li>
      * </ul>.
-     * <u>Exemple :</u> si 3 est placÈ 4 fois, alors placeableElements[2] = 4.
+     * <u>Exemple :</u> si 3 est plac√© 4 fois, alors placeableElements[2] = 4.
      *
      * @see GridParsed#getPlaceableNumber()
      */
     private final Integer[] placeableElements;
 
     /**
-     * Constructeur par dÈfaut d'une grille finie.
+     * Constructeur par d√©faut d'une grille finie.
      *
      * @see Grid#Grid()
      */
@@ -50,10 +49,10 @@ public class GridParsed extends Grid {
     }
 
     /**
-     * Indique si grille de jeu est complËtement remplie. <br>
-     * Ici, l'ensemble de la grille de jeu est vÈrifiÈe afin de retourner vrai ssi tous les ÈlÈments ont ÈtÈ renseignÈs.
+     * Indique si grille de jeu est compl√®tement remplie. <br>
+     * Ici, l'ensemble de la grille de jeu est v√©rifi√©e afin de retourner vrai ssi tous les √©l√©ments ont √©t√© renseign√©s.
      *
-     * @return <code>vrai</code> si la grille est complËtement et correctement remplie; <br>
+     * @return <code>vrai</code> si la grille est compl√®tement et correctement remplie; <br>
      * <code>faux</code> sinon.
      * @see Grid#isFilled()
      */
@@ -70,10 +69,10 @@ public class GridParsed extends Grid {
     }
 
     /**
-     * Remplit la grille de jeu depuis le fichier de chemin donnÈ. <br>
-     * Cette redÈfinition est ‡ utiliser pour la classe GridParsed.
+     * Remplit la grille de jeu depuis le fichier de chemin donn√©. <br>
+     * Cette red√©finition est √† utiliser pour la classe GridParsed.
      *
-     * @param path le chemin (relatif ou absolu) du fichier ‡ parser
+     * @param path le chemin (relatif ou absolu) du fichier √† parser
      */
     @Override
     public void initFromFile(Path path) {
@@ -82,8 +81,8 @@ public class GridParsed extends Grid {
             final byte[] columnIndex = {0};
 
             lines.forEach(line -> {
-                Arrays.asList(line.split(" ")).forEach(letter -> {
-                    final Integer value = Integer.valueOf(letter);
+                line.replaceAll("\\s+", "").chars().forEach(letter -> {
+                    final Integer value = Character.getNumericValue(letter);
                     if (value >= 1 && value <= 9) {
                         matrix[lineIndex[0]][columnIndex[0]] = new NotEmptyElement(lineIndex[0], columnIndex[0], value);
                         placeableElements[value - 1] += 1;
@@ -104,28 +103,27 @@ public class GridParsed extends Grid {
     }
 
     /**
-     * MÈthode ‡ utiliser pour ajouter un ÈlÈment ‡ la grille de jeu. <br>
-     * GËre l'ajout et les consÈquences de l'ajout (actualisation de la liste de possibilitÈ, ...).
+     * G√®re l'ajout d'un √©l√©ment √† la grille. V√©rifie que l'ajout est possible, et fait les MAJ n√©cessaires.
      *
-     * @param element l'ÈlÈment ‡ ajouter ‡ la grille de jeu
-     * @throws IllegalArgumentException si un ÈlÈment existe dÈj‡, ou si l'ÈlÈment est vide
+     * @param element l'√©l√©ment √† ajouter √† la grille de jeu
+     * @throws IllegalArgumentException si un √©l√©ment existe d√©j√†, ou si l'√©l√©ment est vide
      */
     public void addElement(Element element) {
         if (!matrix[element.getLine()][element.getColumn()].isEmpty()) {
-            throw new IllegalArgumentException("L'ÈlÈment existe dÈj‡");
+            throw new IllegalArgumentException("Un √©l√©ment existe d√©j√†");
         }
         if (element.isEmpty()) {
-            throw new IllegalArgumentException("L'ÈlÈment est vide");
+            throw new IllegalArgumentException("L'√©l√©ment √† ajouter est vide");
         }
         matrix[element.getLine()][element.getColumn()] = element;
         placeableElements[element.getNumber() - 1] += 1;
     }
 
     /**
-     * Renvoie un nombre plaÁable sur la grille de jeu. Le nombre fait partie de ceux non encore placÈs.
+     * Renvoie un nombre pla√ßable sur la grille de jeu. Le nombre fait partie de ceux non encore plac√©s.
      *
-     * @return un nombre ‡ placer sur la grille
-     * @throws IllegalStateException s'il n'y a plus de valeurs ‡ placer
+     * @return un nombre √† placer sur la grille
+     * @throws IllegalStateException s'il n'y a plus de valeurs √† placer
      */
     public int getPlaceableNumber() {
         List<Integer> pool = new ArrayList<>();
@@ -136,7 +134,7 @@ public class GridParsed extends Grid {
         }
 
         if (pool.isEmpty()) {
-            throw new IllegalStateException("Il n'y a plus de valeur ‡ ajouter");
+            throw new IllegalStateException("Il n'y a plus de valeur √† ajouter");
         }
 
         return pool.get(ThreadLocalRandom.current().nextInt(pool.size()));

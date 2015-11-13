@@ -1,19 +1,23 @@
 package guillaume.sudotris.metier;
 
 /**
+ * Énumération des difficultés de jeu possibles. Se base sur le nommage des fichiers des grilles de jeu.
  *
+ * @author Guillaume Chanson
+ * @version 1.0
+ * @since 1.8
  */
 public enum Difficulte {
-    EASY(1),
-    HARD(6);
-
-    private final int level;
-
-    Difficulte(int level) {
-        this.level = level;
-    }
-
-    public int getLevel() {
-        return level;
-    }
+    /**
+     * Très facile.
+     */
+    EASY,
+    /**
+     * Moyen.
+     */
+    MEDIUM,
+    /**
+     * Très dur.
+     */
+    HARD
 }

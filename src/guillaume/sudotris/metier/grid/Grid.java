@@ -4,12 +4,13 @@ import guillaume.sudotris.fileio.GridParser;
 import guillaume.sudotris.metier.Sudotris;
 import guillaume.sudotris.metier.element.Element;
 import guillaume.sudotris.metier.element.EmptyElement;
+import guillaume.sudotris.metier.element.NotEmptyElement;
 import guillaume.sudotris.resources.SudokuSolver;
 
 import java.nio.file.Path;
 
 /**
- * Classe Grid qui d?finit une grille de jeu.
+ * Classe Grid qui définit une grille de jeu.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -19,27 +20,28 @@ import java.nio.file.Path;
  */
 public abstract class Grid {
     /**
-     * Matrice <code>Sudotris.LINES x Sudotris.COLUMNS</code> contenant la grille d'?l?ments de la grille de jeu.
+     * Matrice <code>Sudotris.LINES x Sudotris.COLUMNS</code> contenant la grille d'éléments de la grille de jeu.
      */
     protected Element[][] matrix;
 
     /**
-     * <code>vrai</code> si la grille a ?t? r?solue; <br>
+     * <code>vrai</code> si la grille a été résolue; <br>
      * <code>faux</code> sinon.
      */
-    private boolean solved;
+    protected boolean solved;
 
     /**
-     * Constructeur par d?faut de la classe Grid. <br>
-     * Initialise la matrix repr?sentatrice de la grille d'?l?ments du jeu.
+     * Constructeur par défaut de la classe Grid. <br>
+     * Initialise la matrix représentatrice de la grille d'éléments du jeu.
      */
     protected Grid() {
         this.matrix = new Element[Sudotris.LINES][Sudotris.COLUMNS];
         this.solved = false;
+        empty();
     }
 
     /**
-     * Indique si grille de jeu est compl?tement remplie.
+     * Indique si grille de jeu est complètement remplie.
      *
      * @return <code>vrai</code> si la grille est remplie; <br>
      * <code>faux</code> sinon.
@@ -47,9 +49,9 @@ public abstract class Grid {
     public abstract boolean isFilled();
 
     /**
-     * Indique si la grille a ?t? r?solue.
+     * Indique si la grille a été résolue.
      *
-     * @return <vrai>si la grille a ?t? r?solue</vrai>; <br>
+     * @return <vrai>si la grille a été résolue</vrai>; <br>
      * <code>faux</code> sinon
      */
     public boolean isSolved() {
@@ -57,12 +59,33 @@ public abstract class Grid {
     }
 
     /**
-     * Remplit la grille de jeu depuis le fichier de chemin donn?.
+     * Remplit la grille de jeu depuis le fichier de chemin donné.
      *
-     * @param path le chemin (relatif ou absolu) du fichier ? parser
+     * @param path le chemin (relatif ou absolu) du fichier  parser
      */
     public void initFromFile(Path path) {
+        solved = false;
         matrix = GridParser.parseFileToMatrix(path);
+    }
+
+    /**
+     * Remplit la grille de jeu depuis la grille donnée.
+     *
+     * @param grid la grille de jeu à copier
+     */
+    public void initFromGrid(Grid grid) {
+        solved = false;
+
+        for (byte line = 0; line < 9; line++) {
+            for (byte col = 0; col < 9; col++) {
+                final Element el = grid.getElement(line, col);
+                if (el.isEmpty()) {
+                    matrix[line][col] = new EmptyElement(line, col);
+                } else {
+                    matrix[line][col] = new NotEmptyElement(line, col, el.getNumber());
+                }
+            }
+        }
     }
 
     /**
@@ -77,8 +100,8 @@ public abstract class Grid {
     }
 
     /**
-     * R?soud cette grille en faisant appel ? la ressource SudokuSolver. <br>
-     * <b>Attention :</b> ne r?soud la grille que si elle n'a ?t? ni r?solue, ni enti?rement compl?t?e.
+     * Résoud cette grille en faisant appel à la ressource SudokuSolver. <br>
+     * <b>Attention :</b> ne résoud la grille que si elle n'a été ni résolue, ni entièrement complétée.
      *
      * @see SudokuSolver
      */
@@ -86,25 +109,25 @@ public abstract class Grid {
         if (isSolved() || isFilled()) {
             return;
         }
-        new SudokuSolver(this).solveGrid();
+        (new SudokuSolver(this)).solveGrid();
         solved = true;
     }
 
     /**
-     * Renvoie l'?l?ment de la grille aux coordonn?es donn?es.
+     * Renvoie l'élément de la grille aux coordonnées données.
      *
-     * @param line   ligne de l'?l?ment recherch?
-     * @param column colonne de l'?l?ment recherch?
-     * @return l'?l?ment contenu aux coordonn?es donn?es
+     * @param line   ligne de l'élément recherché
+     * @param column colonne de l'élément recherché
+     * @return l'élément contenu aux coordonnées données
      */
     public Element getElement(byte line, byte column) {
-        return this.matrix[line][column];
+        return matrix[line][column];
     }
 
     /**
-     * Renvoie la matrice d'�l�ments repr�sentant la grille de jeu.
+     * Renvoie la matrice d'éléments représentant la grille de jeu.
      *
-     * @return une matrice d'�l�ments
+     * @return une matrice d'éléments
      */
     public Element[][] getMatrix() {
         return matrix;

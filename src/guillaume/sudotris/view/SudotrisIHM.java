@@ -8,29 +8,37 @@ import guillaume.sudotris.metier.element.NotEmptyElement;
 import java.util.Scanner;
 
 /**
- * IHM du jeu de Sudotris. Classe de plus haut niveau.
+ * IHM du jeu de Sudotris. À lancer pour jouer.
  *
  * @author Guillaume Chanson
  * @version 1.0
  * @since 1.8
  */
 public class SudotrisIHM {
-
     private final Scanner scanner;
     private final Sudotris sudotris;
 
+    /**
+     * Crée l'IHM du jeu de Sudotris.
+     */
     public SudotrisIHM() {
         scanner = new Scanner(System.in);
         sudotris = new Sudotris();
         System.out.println(" Bienvenue dans mon jeu de SudoTrisGame ");
     }
 
+    /**
+     * Initialise le jeu de Sudotris : gère la création du jeu pour une grille de niveau à choisir.
+     */
     public void initializeGame() {
-        System.out.print("Pour commencer, choisis la difficult� de jeu (1=easy, 2=hard) : ");
+        System.out.print("Pour commencer, choisis la difficulté de jeu (1=easy, 2=moyen, 3=hard) : ");
 
         final int difficulte = scanner.nextInt();
         switch (difficulte) {
             case 2:
+                sudotris.init(Difficulte.MEDIUM);
+                break;
+            case 3:
                 sudotris.init(Difficulte.HARD);
                 break;
             default:
@@ -41,38 +49,72 @@ public class SudotrisIHM {
         System.out.println("Game's ready, let's play !");
     }
 
-    public void play() {
-        this.renderMatrix(sudotris.getDrawableGrid());
+    /**
+     * C'est parti ! Démarre le jeu. Il faut l'avoir pour cela initialisé.
+     */
+    public void start() {
+        do {
+            initializeGame();
+            play();
+        } while (sudotris.isFinished());
 
-        // If won
-        if (sudotris.isFinished()) {
-            System.out.println(" ----------------------- ");
-            System.out.println("|  You've won ! GG  :)  |");
-            System.out.println(" ----------------------- ");
-            return;
-        }
-
-        // Else, ask for a number
-        if (sudotris.placeElement(this.askForNumber())) {
-            System.out.println("Yes !");
-        } else {
-            System.out.println("Wrong number");
-        }
-
-        // Else, try another guess
-        play();
+        System.out.println("Goodbye ! :)");
+        scanner.close();
     }
 
-    public void renderMatrix(Element[][] matrix) {
+    /**
+     * La boucle de jeu. Appelée par SudotrisIHM#start().
+     */
+    public void play() {
+        while (!sudotris.isFinished()) {
+            renderMatrix(sudotris.getDrawableGrid());
+
+            // Le joueur tente sa chance
+            // true => réussi
+            final boolean elementCorrect = sudotris.placeElement(askForNumber());
+
+            if (elementCorrect) {
+                System.out.println("Bien joué !");
+            } else {
+                System.out.println("Wrong location");
+            }
+        }
+
+        // Gagné !
+        System.out.println(" ----------------------- ");
+        System.out.println("|  You've won ! GG  :)  |");
+        System.out.println(" ----------------------- ");
+    }
+
+    /**
+     * Rejouer ? - retourne un booléen indiquant si le joueur souhaite rejouer.
+     *
+     * @return <code>true</code> si le joueur souhaite rejouer;<br>
+     * <code>false</code> sinon
+     */
+    protected boolean playAgain() {
+        System.out.print("Rejouer (y/N) : ");
+
+        final char c = scanner.next().toLowerCase().charAt(0);
+        return (c == 'y');
+    }
+
+    /**
+     * Gère le rendu en console de la grille de jeu.
+     *
+     * @param matrix la matrice de jeu à afficher
+     */
+    protected void renderMatrix(Element[][] matrix) {
         System.out.println("    1 2 3   4 5 6   7 8 9 ");
 
-        for (byte i = 0; i < 9; i++) {
+        for (byte i = 0; i < matrix.length; i++) {
             if (i % 3 == 0) {
                 System.out.println("   ----------------------- ");
             }
 
             System.out.print((i + 1) + " | ");
-            for (byte j = 0; j < 9; j++) {
+
+            for (byte j = 0; j < matrix[i].length; j++) {
                 if (j % 3 == 0 && j > 0) {
                     System.out.print("| ");
                 }
@@ -86,10 +128,15 @@ public class SudotrisIHM {
         }
 
         System.out.println("   ----------------------- ");
-        System.out.println("    1 2 3   4 5 6   7 8 9");
     }
 
-    public Element askForNumber() {
+    /**
+     * Gère l'input d'une case, à savoir la demande de placement d'un chiffre plaçable.
+     *
+     * @return l'Element correspond au choix du joueur.
+     * @see Element
+     */
+    protected Element askForNumber() {
         final int nbToPlace = sudotris.getNumberToPlace();
         System.out.print("A toi de jouer, place " + nbToPlace + " <ligne,colonne> : ");
 

@@ -1,7 +1,7 @@
 package guillaume.sudotris.metier.grid;
 
 /**
- * G?re la grille finale (compl?tement et d?ment remplie) de la partie.
+ * Gère la grille finale (complètement et dûment remplie) de la partie.
  *
  * @author Guillaume Chanson
  * @version 1.0
@@ -10,7 +10,7 @@ package guillaume.sudotris.metier.grid;
  */
 public class GridFilled extends Grid {
     /**
-     * Constructeur par d?faut d'une grille remplie.
+     * Constructeur par défaut d'une grille remplie.
      *
      * @see Grid#Grid()
      */
@@ -19,7 +19,7 @@ public class GridFilled extends Grid {
     }
 
     /**
-     * Indique si grille de jeu est compl?tement remplie, en l'occurence tout le temps.
+     * Indique si grille de jeu est complètement remplie, en l'occurence tout le temps.
      *
      * @return <code>vrai</code>, puisque la grille est remplie
      * @see Grid#isFilled()
