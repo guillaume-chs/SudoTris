@@ -87,7 +87,7 @@ public class Sudotris {
      * <code>faux</code> sinon.
      */
     public boolean isFinished() {
-        return gridParsed.isFilled();
+        return true; //gridParsed.isFilled();
     }
 
     /**

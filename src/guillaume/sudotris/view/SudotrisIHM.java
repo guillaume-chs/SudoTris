@@ -56,7 +56,7 @@ public class SudotrisIHM {
         do {
             initializeGame();
             play();
-        } while (sudotris.isFinished());
+        } while (playAgain());
 
         System.out.println("Goodbye ! :)");
         scanner.close();
@@ -81,9 +81,9 @@ public class SudotrisIHM {
         }
 
         // Gagné !
-        System.out.println(" ----------------------- ");
-        System.out.println("|  You've won ! GG  :)  |");
-        System.out.println(" ----------------------- ");
+        System.out.println(" ---------------- ");
+        System.out.println("|  You've won !  |");
+        System.out.println(" ---------------- ");
     }
 
     /**
